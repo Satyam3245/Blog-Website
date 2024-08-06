@@ -1,11 +1,12 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 interface User {
   id: string;
   name: string;
   email: string;
 }
-export async function createUser(email:string,name:string,password:string): Promise<string|void>{
+export async function createUser(email:string,name:string,password:string): Promise<{email:string,id:string}|Error>{
     try {
        const user = await prisma.user.create({
         data: {
@@ -15,23 +16,25 @@ export async function createUser(email:string,name:string,password:string): Prom
         }
       });
       console.log("User created successfully");
-      return user.name;
-    } catch (error) {
-      console.error("Error creating user:", error);
+      return {email:user.email,id:user.id};
+    } catch (error:any) {
+      return new Error(error.message);
     } finally {
       await prisma.$disconnect();
     }
 }
 
-export async function findUser(email: string, password: string): Promise<User | null> {
+export async function findUser(email: string, password: string): Promise<{email:string,id:string} | null> {
   try {
     const user = await prisma.user.findFirst({
       where: {
-        email: email,
-        password: password
+        email: email
       }
     });
-    return user || null;
+    if (user && await bcrypt.compare(password, user.password)) {
+      return {email:user.email,id:user.id};
+    }
+    return null;
   } catch (error) {
     console.error('Error finding user:', error);
     return null;
@@ -40,5 +43,20 @@ export async function findUser(email: string, password: string): Promise<User | 
   }
 }
 
-
+export async function findUserByEmail(email:string){
+  try {
+      const user = await prisma.user.findFirst({
+        where:{
+          email:email
+        }
+      })
+      if(!user){
+        return null
+      }else{
+        return user
+      }    
+  } catch (error) {
+      console.log(error);
+  }
+}
 
