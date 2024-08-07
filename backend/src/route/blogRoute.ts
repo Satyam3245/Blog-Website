@@ -33,6 +33,7 @@ blogRouter.post('/',jwtMiddleware,async(req:Request,res:Response)=>{
     const body = req.body;
     const data = function1(req);
     const id = data?.id; 
+    console.log(id);
     console.log(data);
     console.log(body);
     if (!body.title || !body.content) {
@@ -48,9 +49,10 @@ blogRouter.post('/',jwtMiddleware,async(req:Request,res:Response)=>{
                 auhtorId: id || 'not know'
             }
         });
-       
+       console.log(blog1.auhtorId);
         res.json({ msg: "Your Blog is Created" });
     } catch (e) {
+        console.log(e);
         return res.send("Something Happened to our Database. Come back a few hours later.");
         
     }
