@@ -25,7 +25,7 @@ router.post('/signup', async (req: Request, res: Response) => {
 
         const token = jwt.sign(user, process.env.JWT_SECRET as string);
 
-        res.status(201).json({ token });
+        res.status(201).send(token);
     } catch (e) {
         console.error("Error creating user:", e);
         res.status(500).send("Something went wrong. Please try again later.");
@@ -45,9 +45,9 @@ router.post('/login',async(req:Request,res:Response)=>{
             })
         } else {
             const token = jwt.sign(user, process.env.JWT_SECRET as string);
-            res.json({
-                token : token
-            })
+            res.send(
+                token
+            )
         }
     } catch (e) {
         return res.status(500).send("Something is Wrong with your email and password")

@@ -11,6 +11,7 @@ export default {
     function ({ addBase }) {
       addBase({
         '*': { boxSizing: 'border-box' },
+        '*':{overflow:'overflow-x-hidden'},
         '::before': { boxSizing: 'border-box' },
         '::after': { boxSizing: 'border-box' },
       });

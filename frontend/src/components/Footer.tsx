@@ -2,7 +2,7 @@ import { FaGithub } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa6";
 import { FaYoutube } from "react-icons/fa";
 export const Footer:React.FC = ()=>{
-    return<div className="flex justify-around items-center bg-slate-800 text-white p-7">
+    return<div className="flex justify-around items-center bg-slate-800 text-white p-7 w-screen">
         <div className="text-3xl font-bold">100xDevBlog</div>
         <div>
             <div className="font-medium mb-4">Quick Links</div>

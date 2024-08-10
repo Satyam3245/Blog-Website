@@ -1,26 +1,22 @@
-import { useState ,useEffect,useRef } from "react"
+import React, { useState ,useEffect,useRef } from "react"
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { CiSearch } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
  export const AppBar:React.FC = ()=>{
+    const navigate = useNavigate();
     const [isDark , setIsDark] = useState(false);
+    const [authToken , setAuthToken] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
     const handleTheme = ()=>{
         setIsDark(!isDark);
     }
 
     useEffect(() => {
-        const handleKeyDown = (event: KeyboardEvent) => {
-          if (event.ctrlKey && event.key === 'k') {
-            event.preventDefault();
-            inputRef.current?.focus();
-          }
-        };
-    
-        window.addEventListener('keydown', handleKeyDown);
-    
-        return () => {
-          window.removeEventListener('keydown', handleKeyDown);
-        };
+        const token = localStorage.getItem('authToken');
+        setAuthToken(true);
+        if(!token){
+          setAuthToken(false)
+        }
       }, []);
 
 
@@ -34,8 +30,8 @@ import { CiSearch } from "react-icons/ci";
                 <input type="text" placeholder="Search..." className="bg-slate-900 w-[100px] focus:outline-none" />
                 <button className="border rounded bg-slate-800 text-sm px-1">Ctrl K</button>
             </div>
-            <button className = "px-3 border rounded bg-slate-900 hover:bg-slate-700">SignIn</button>
-            <button className = "px-3 border rounded bg-slate-900 hover:bg-slate-700">Login</button>
+            <button onClick={()=>{{authToken?navigate('/myBlog'):navigate('/signup')}}} className = "px-3 border rounded bg-slate-900 hover:bg-slate-700">{authToken?'My Blog':'Sign Up'}</button>
+            <button onClick={()=>{{authToken?navigate('/createblog'):navigate('/login')}}} className = "px-3 border rounded bg-slate-900 hover:bg-slate-700">{authToken?'Post Blog':'Login'}</button>
             <button onClick={handleTheme} className="p-2 border rounded bg-slate-900 hover:bg-slate-700">{isDark? <FaSun/>:<FaMoon/>}</button>
         </div>
         

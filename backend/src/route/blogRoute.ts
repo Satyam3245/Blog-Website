@@ -31,11 +31,11 @@ interface DecodedToken {
 
 blogRouter.post('/',jwtMiddleware,async(req:Request,res:Response)=>{
     const body = req.body;
+    console.log(body)
     const data = function1(req);
-    const id = data?.id; 
-    console.log(id);
     console.log(data);
-    console.log(body);
+    const id = data?.id;
+    console.log(id); 
     if (!body.title || !body.content) {
         res.status(400).send('Bad Request or Send Correct Information');
         return;
@@ -49,10 +49,8 @@ blogRouter.post('/',jwtMiddleware,async(req:Request,res:Response)=>{
                 auhtorId: id || 'not know'
             }
         });
-       console.log(blog1.auhtorId);
         res.json({ msg: "Your Blog is Created" });
     } catch (e) {
-        console.log(e);
         return res.send("Something Happened to our Database. Come back a few hours later.");
         
     }
@@ -61,8 +59,6 @@ blogRouter.post('/',jwtMiddleware,async(req:Request,res:Response)=>{
 blogRouter.get('/myBlog', jwtMiddleware, async (req: Request, res: Response) => {
     const data = function1(req);
     const id = data?.id; 
-    console.log(data);
-
     try {
         const blogs = await prisma.post.findMany({
             where: {
@@ -79,7 +75,6 @@ blogRouter.put('/updateMyBlog', jwtMiddleware, async (req: Request, res: Respons
     const body = req.body;
     const data = function1(req);
     const id = data?.id; 
-    console.log(data);
     if (!body.title || !body.content || !body.id) {
         return res.status(400).json({ error: 'Title, content, and ID are required.' });
     }
@@ -95,7 +90,7 @@ blogRouter.put('/updateMyBlog', jwtMiddleware, async (req: Request, res: Respons
                 content: body.content
             }
         });
-        console.log(blog);
+
         res.status(200).json(blog);
     } catch (error) {
         console.error('Error updating blog:', error); 
