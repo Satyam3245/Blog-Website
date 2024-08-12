@@ -26,7 +26,7 @@ export const PostBlog:React.FC = ()=>{
               setTitle('')
               setContent('')
               setSuccess(true)
-              alert('Your Blog is Created');
+              
         } catch (error) {
             setError('Error is Occurred please re Login or Re trying Again')   
         }
@@ -35,7 +35,7 @@ export const PostBlog:React.FC = ()=>{
         return <div>
             <div>Your Blog is Created</div>
             <Link to="/createblog" className="font-blue-500"> Upload the New Blog </Link>
-            
+            <Link to="/" className="font-blue-500">Go to Home</Link>
         </div>
     }
     if(error){

@@ -5,6 +5,7 @@ import { Signup } from './pages/Signup';
 import { Login } from './pages/Login';
 import { MyBlog } from './pages/MyBlog';
 import { PostBlog } from './pages/PostBlog';
+import UpdateUtils from './pages/UpdateBlog';
 const App: React.FC = () => {
   return (
     <BrowserRouter>
@@ -14,6 +15,7 @@ const App: React.FC = () => {
         <Route path="/login" element={<Login/>} />
         <Route path='/myBlog' element={<MyBlog/>}/>
         <Route path='/createblog' element={<PostBlog/>}/>
+        <Route path='/updateblog' element={<UpdateUtils/>}/>
       </Routes>
     </BrowserRouter>
   );

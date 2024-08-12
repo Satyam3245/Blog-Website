@@ -31,11 +31,11 @@ interface DecodedToken {
 
 blogRouter.post('/',jwtMiddleware,async(req:Request,res:Response)=>{
     const body = req.body;
-    console.log(body)
+    
     const data = function1(req);
-    console.log(data);
+    
     const id = data?.id;
-    console.log(id); 
+    
     if (!body.title || !body.content) {
         res.status(400).send('Bad Request or Send Correct Information');
         return;
@@ -59,12 +59,14 @@ blogRouter.post('/',jwtMiddleware,async(req:Request,res:Response)=>{
 blogRouter.get('/myBlog', jwtMiddleware, async (req: Request, res: Response) => {
     const data = function1(req);
     const id = data?.id; 
+
     try {
         const blogs = await prisma.post.findMany({
             where: {
                auhtorId: id,
             },
         });
+        
         res.json(blogs);
     } catch (e) {
         console.error(e);
