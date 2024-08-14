@@ -5,22 +5,22 @@ export const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
+    const [loading , setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
         if (!email || !password) {
             setError('Please enter both email and password.');
             return;
         }
         try {
+            setLoading(true)
             const response = await axios.post('http://localhost:3000/api/v1/user/login',{
                 email,
                 password
             })
             const token = response.data;
             localStorage.setItem('authToken',token);
-            console.log('Signup successful:', response.data);
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             setError(null);
             setEmail('');
@@ -28,11 +28,20 @@ export const Login: React.FC = () => {
             navigate('/')
         } catch (error) {
             setError('Signup failed. Please try again.')
-            console.log(error)
+        }finally{
+            setLoading(false);
         }
         
     };
-
+    if(loading){
+        return (
+            <div className="flex items-center justify-center h-screen bg-gray-100">
+                <div className="text-2xl font-semibold text-gray-700 animate-pulse">
+                    Loading...
+                </div>
+            </div>
+        );
+    }  
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">

@@ -8,7 +8,7 @@ export const Signup: React.FC = () => {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
-    
+    const [loading , setLoading] = useState<boolean>(false);
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (!email || !name || !password) {
@@ -16,6 +16,7 @@ export const Signup: React.FC = () => {
             return;
         }
         try {
+            setLoading(true)
             const response = await axios.post('http://localhost:3000/api/v1/user/signup', {
                 email,
                 name,
@@ -23,7 +24,6 @@ export const Signup: React.FC = () => {
             });
             const token = response.data;
             localStorage.setItem('authToken', token);
-            console.log('Signup successful:', response.data);
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             setError(null);
             setEmail('');
@@ -32,10 +32,28 @@ export const Signup: React.FC = () => {
             navigate('/');
         } catch (error) {
             setError('Signup failed. Please try again.');
-            console.log(error);
+        }finally{
+            setLoading(false);
         }
     };
-
+    if(error){
+        return (
+            <div className="flex flex-col items-center justify-center h-screen bg-red-100">
+                <div className="text-3xl font-bold text-red-600">Error Occurred</div>
+                <div className="text-xl text-red-500">Status Code 500</div>
+            </div>
+        );
+    }
+    if(loading){
+        return (
+            <div className="flex items-center justify-center h-screen bg-gray-100">
+                <div className="text-2xl font-semibold text-gray-700 animate-pulse">
+                    Loading...
+                </div>
+            </div>
+        );
+    }    
+    
     return (
         <div className="flex justify-center items-center h-screen bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
