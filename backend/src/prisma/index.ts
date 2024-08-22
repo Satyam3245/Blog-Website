@@ -15,7 +15,7 @@ export async function createUser(email:string,name:string,password:string): Prom
           password: password,
         }
       });
-      console.log("User created successfully");
+      
       return {email:user.email,id:user.id};
     } catch (error:any) {
       return new Error(error.message);
@@ -56,7 +56,20 @@ export async function findUserByEmail(email:string){
         return user
       }    
   } catch (error) {
-      console.log(error);
+     
+  
   }
 }
-
+export async function findBlog(id:string): Promise<{}|null>{
+  try {
+    const blog = await prisma.post.findUnique({
+      where:{
+        id
+      }
+    })
+    
+    return blog
+  } catch (error) {
+    return null;
+  }
+}

@@ -2,6 +2,7 @@ import express, { Router,Request,Response, request } from 'express';
 import jwtMiddleware from '../middleware/middleware';
 import { PrismaClient } from '@prisma/client';
 import jwt from  'jsonwebtoken';
+import { findBlog } from '../prisma';
 const blogRouter = Router();
 const prisma = new PrismaClient();
 
@@ -104,6 +105,23 @@ blogRouter.get('/blogs',async (req:Request,res:Response)=>{
         const blogs = await prisma.post.findMany();
         res.status(200).json(blogs);
     } catch (error) {
+        res.status(500).send("Something happened to our database! Please try again later");
+    }
+})
+blogRouter.get('/getBlog',async (req:Request,res:Response)=>{
+    const id = req.query.id as string;
+    
+    try {
+        const blog = await findBlog(id);
+       
+        if (blog) {
+            res.status(201).json(blog); 
+        } else {
+            res.status(404).send("Blog not found");
+        }
+       
+    } catch (error) {
+        console.error('Error fetching blog:', error);
         res.status(500).send("Something happened to our database! Please try again later");
     }
 })
