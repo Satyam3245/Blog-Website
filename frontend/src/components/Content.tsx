@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import {Loader} from '../components/Loader'
 interface Blog {
     id: string;
     title: string;
@@ -23,7 +24,11 @@ export const Content: React.FC = () => {
           navigate('/login')
         }
     }
-
+    const handleCheckBlog = (id:string)=>{
+        console.log(id);
+        tokenCheck();
+        navigate(`getBlog/${id}`)
+    }
     useEffect(() => {
         axios.get('http://localhost:3000/api/v1/blog/blogs')
             .then(response => {
@@ -40,7 +45,7 @@ export const Content: React.FC = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className='my-12'><Loader/></div>;
     }
 
     if (error) {
@@ -54,7 +59,8 @@ export const Content: React.FC = () => {
                     <div key={blog.id} className='border rounded-2xl bg-gray-500 w-[600px] max-w-full shadow-md p-4'>
                         <h2 className='text-2xl font-bold mb-2'>{blog.title}</h2>
                         <p className='text-white mb-4'>{blog.content.substring(0, 100)}...</p>
-                        <button onClick={tokenCheck} className='border p-1 rounded mx-auto block bg-white text-gray-700 hover:bg-gray-300'>Read Blog</button>
+                        <button onClick={()=>{handleCheckBlog(blog.id)}} className='border p-1 rounded mx-auto block bg-white text-gray-700 hover:bg-gray-300'>Read Blog</button>
+                        
                     </div>
                 ))}
             </div>

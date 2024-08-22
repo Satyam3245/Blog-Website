@@ -6,6 +6,7 @@ import { Login } from './pages/Login';
 import { MyBlog } from './pages/MyBlog';
 import { PostBlog } from './pages/PostBlog';
 import UpdateUtils from './pages/UpdateBlog';
+import { BlogDetail } from './components/GetBlog';
 const App: React.FC = () => {
   return (
     <BrowserRouter>
@@ -16,6 +17,7 @@ const App: React.FC = () => {
         <Route path='/myBlog' element={<MyBlog/>}/>
         <Route path='/createblog' element={<PostBlog/>}/>
         <Route path='/updateblog' element={<UpdateUtils/>}/>
+        <Route path='/getBlog/:id' element={<BlogDetail/>}/>
       </Routes>
     </BrowserRouter>
   );
