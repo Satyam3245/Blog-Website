@@ -1,8 +1,8 @@
-import express, { Router,Request,Response, request } from 'express';
+import { Router,Request,Response } from 'express';
 import jwtMiddleware from '../middleware/middleware';
 import { PrismaClient } from '@prisma/client';
 import jwt from  'jsonwebtoken';
-import { findBlog } from '../prisma';
+import { searchBlog,findBlog } from '../prisma';
 const blogRouter = Router();
 const prisma = new PrismaClient();
 
@@ -103,6 +103,7 @@ blogRouter.put('/updateMyBlog', jwtMiddleware, async (req: Request, res: Respons
 blogRouter.get('/blogs',async (req:Request,res:Response)=>{
     try {
         const blogs = await prisma.post.findMany();
+        console.log(blogs);
         res.status(200).json(blogs);
     } catch (error) {
         res.status(500).send("Something happened to our database! Please try again later");
@@ -123,6 +124,22 @@ blogRouter.get('/getBlog',async (req:Request,res:Response)=>{
     } catch (error) {
         console.error('Error fetching blog:', error);
         res.status(500).send("Something happened to our database! Please try again later");
+    }
+})
+blogRouter.get('/searchBlog',async (req:Request,res:Response)=>{
+    const title = req.query.title as string;
+    if(!title){
+        return res.status(400).send('Title is Required.')
+    }
+    try {
+        const blog = await searchBlog(title);
+        if(!blog){
+            return res.send('Blog is Not found')
+        }
+        return res.send(blog);
+    } catch (error) {
+        console.log(error);
+        return res.send('Something is Happened!')
     }
 })
 export default blogRouter;

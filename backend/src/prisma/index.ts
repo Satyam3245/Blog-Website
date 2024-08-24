@@ -6,6 +6,13 @@ interface User {
   name: string;
   email: string;
 }
+interface blog {
+  id: string;
+  title: string;
+  content: string;
+  published: boolean;
+  auhtorId: string;
+}
 export async function createUser(email:string,name:string,password:string): Promise<{email:string,id:string}|Error>{
     try {
        const user = await prisma.user.create({
@@ -70,6 +77,24 @@ export async function findBlog(id:string): Promise<{}|null>{
     
     return blog
   } catch (error) {
+    return null;
+  }
+}
+export async function searchBlog(title: string):Promise<blog[]|null> {
+  try {
+    console.log('Searching for title:', title);
+    const blog = await prisma.post.findMany({
+      where: {
+        title: {
+          startsWith: title,
+          mode: 'insensitive',
+        },
+      },
+    });
+    console.log('Search results:', blog);
+    return blog;
+  } catch (e) {
+    console.log('Error occurred:', e);
     return null;
   }
 }
