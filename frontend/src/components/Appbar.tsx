@@ -2,6 +2,7 @@ import React, { useState ,useEffect,useRef } from "react"
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { CiSearch } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import { Input } from "./Input";
  export const AppBar:React.FC = ()=>{
     const navigate = useNavigate();
     const [isDark , setIsDark] = useState(false);
@@ -27,8 +28,7 @@ import { useNavigate } from "react-router-dom";
         <div className="flex gap-x-3 ">
             <div className="flex items-center bg-slate-900 px-2 rounded gap-x-1">
                 <CiSearch size={20}/>
-                <input type="text" placeholder="Search..." className="bg-slate-900 w-[100px] focus:outline-none" />
-                <button className="border rounded bg-slate-800 text-sm px-1">Ctrl K</button>
+                <Input/>
             </div>
             <button onClick={()=>{{authToken?navigate('/myBlog'):navigate('/signup')}}} className = "px-3 border rounded bg-slate-900 hover:bg-slate-700">{authToken?'My Blog':'Sign Up'}</button>
             <button onClick={()=>{{authToken?navigate('/createblog'):navigate('/login')}}} className = "px-3 border rounded bg-slate-900 hover:bg-slate-700">{authToken?'Post Blog':'Login'}</button>

@@ -43,17 +43,8 @@ export const Signup: React.FC = () => {
                 <div className="text-xl text-red-500">Status Code 500</div>
             </div>
         );
-    }
-    if(loading){
-        return (
-            <div className="flex items-center justify-center h-screen bg-gray-100">
-                <div className="text-2xl font-semibold text-gray-700 animate-pulse">
-                    Loading...
-                </div>
-            </div>
-        );
-    }    
-    
+    } 
+
     return (
         <div className="flex justify-center items-center h-screen bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -94,7 +85,7 @@ export const Signup: React.FC = () => {
                         type="submit"
                         className="w-full bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                     >
-                        Sign Up
+                        {loading ? 'Loading...' : 'Sign up'}
                     </button>
                 </form>
                 <div className="text-center mt-4">

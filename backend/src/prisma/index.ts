@@ -90,6 +90,13 @@ export async function searchBlog(title: string):Promise<blog[]|null> {
           mode: 'insensitive',
         },
       },
+      select:{
+        id:true,
+        title:true,
+        content:true,
+        published:true,
+        auhtorId:true
+      }
     });
     console.log('Search results:', blog);
     return blog;

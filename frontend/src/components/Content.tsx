@@ -33,6 +33,7 @@ export const Content: React.FC = () => {
         axios.get('http://localhost:3000/api/v1/blog/blogs')
             .then(response => {
                 setBlogs(response.data);
+                console.log(response.data);         
                 if (response.data.length === 0) {
                     setError('There are no blogs available.');
                 }
